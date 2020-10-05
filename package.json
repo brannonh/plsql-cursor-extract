@@ -1,11 +1,11 @@
 {
   "name": "plsql-cursor-extract",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Extract cursors with appropriate bind variables from PL/SQL scripts.",
   "main": "src/terminal.js",
   "scripts": {
-    "build": "genversion src/version.js",
-    "start": "node src/terminal.js"
+    "build": "genversion src/bootstrap/version.js",
+    "test": "node src/app.js -i php/script.sql php/cursors.sql -l logs/test_run.log"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/brannonh/plsql-cursor-extract#readme",
   "dependencies": {
-    "commander": "^6.1.0"
+    "chalk": "^4.1.0",
+    "commander": "^6.1.0",
+    "strip-ansi": "^6.0.0"
   },
   "devDependencies": {
     "genversion": "^2.2.1"
