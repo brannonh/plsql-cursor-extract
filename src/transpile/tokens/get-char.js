@@ -7,14 +7,14 @@ function getChar(at = null) {
   const char = Buffer.alloc(1, null);
   const bytes = fs.readSync(file, char, 0, 1, at);
 
-  logBlockIn('getChar', 'function', { at: at });
+  // logBlockIn('getChar', 'function', { at: at });
 
   if (at === null && bytes) {
     store.bytesRead += bytes;
     store.bytesAt = store.bytesRead;
   }
 
-  logBlockOut('getChar');
+  // logBlockOut('getChar');
 
   return { char: char.toString(), bytes: bytes };
 }

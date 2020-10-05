@@ -9,8 +9,6 @@ function getToken(expected = null, peek = false) {
   let token = '';
   let bytesStart = Math.min(store.bytesAt, store.bytesRead);
 
-  logBlockIn('getToken', 'function', { peek: peek, expected: expected });
-
   let captured = false;
   while (!captured) {
     // logInsane(`@${store.bytesAt} R${store.bytesRead}`);
@@ -89,9 +87,6 @@ function getToken(expected = null, peek = false) {
   if (peek) {
     store.bytesAt = bytesStart;
   }
-
-  logVar('token', token);
-  logBlockOut('getToken');
 
   return token;
 }
