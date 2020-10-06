@@ -13,10 +13,7 @@ app
   .option('-c, --chatty', 'log more than normal')
   .option('-d, --dump', 'dump data on error and end of execution')
   .option('-i, --insane', 'log everything (implies -a)')
-  .option('-l, --log-file <file>', 'assign log file for output')
-  .action((inputFile, outputFile, cmdObj) => {
-    console.log(`${inputFile}, ${outputFile}`);
-  });
+  .option('-l, --log-file <file>', 'assign log file for output');
 
 app.parse(process.argv);
 

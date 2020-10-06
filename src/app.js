@@ -6,4 +6,4 @@ const transpile = require('./transpile');
 logInit(app.opts().logFile ?? null);
 banner(app);
 
-transpile(app.args[0]);
+transpile(app.args[0], app.opts());
