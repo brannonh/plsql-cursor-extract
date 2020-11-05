@@ -1,17 +1,18 @@
 const style = require('./style');
 const { logMessage, logAwkward, getLogFile } = require('./logger');
+const store = require('../store');
 
-function banner(app) {
+function banner() {
   logMessage(style.title('PL/SQL Cursor Extract'));
 
-  logAwkward(style.config('» Arguments'));
-  for (arg in app.args) {
-    logAwkward(style.config(`  ${Number(arg) + 1}: ${app.args[arg]}`));
+  logAwkward(style.config('Arguments'));
+  for (arg in store.args) {
+    logAwkward(style.configItem(`${Number(arg) + 1}: ${store.args[arg]}`));
   }
 
-  logAwkward(style.config('» Options'));
-  for (opt in app.opts()) {
-    logAwkward(style.config(`  ${opt}: ${app.opts()[opt]}`));
+  logAwkward(style.config('Options'));
+  for (opt in store.opts) {
+    logAwkward(style.configItem(`${opt}: ${store.opts[opt]}`));
   }
 
   const logFile = getLogFile();

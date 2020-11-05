@@ -3,9 +3,9 @@ const peekToken = require('./peek-token');
 const nextToken = require('./next-token');
 
 function seekToken(expected) {
-  logBlockIn('seekToken', 'function', { expected: expected });
+  logBlockIn('seekToken', 'function', { expected });
 
-  if (typeof expected !== Array) {
+  if (!Array.isArray(expected)) {
     expected = [ expected ];
   }
   

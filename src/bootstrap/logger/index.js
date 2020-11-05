@@ -3,6 +3,7 @@ const opts = require('../init').opts();
 const { logBlockIn, logBlockOut, logBlockInOut, logVar } = require('./log-blocks');
 const { logError } = require('./log-error');
 const { logMessage, logChatty, logAwkward, logInsane } = require('./log-messages');
+const { logStack, logTables } = require('./log-debug');
 const store = require('../../store');
 
 if (opts.chatty) {
@@ -15,11 +16,11 @@ if (opts.insane) {
   store.logAt = store.logLevels.insane;
 }
 
-function logInit(outFile = null) {
-  store.logToFile = outFile ? true : false;
-  if (outFile) {
-    store.logFileName = outFile;
-    store.logFile = fs.openSync(outFile, 'w');
+function logInit() {
+  store.logToFile = store.opts.logFile ? true : false;
+  if (store.opts.logFile) {
+    store.logFileName = store.opts.logFile;
+    store.logFile = fs.openSync(store.opts.logFile, 'w');
   }
 }
 
@@ -39,4 +40,6 @@ module.exports = {
   logBlockOut,
   logBlockInOut,
   logVar,
+  logStack,
+  logTables,
 };

@@ -1,7 +1,7 @@
-const { logAwkward, logInsane } = require('./log-messages');
+const { logAwkward, logInsane, logMessage } = require('./log-messages');
 const store = require('../../store');
 
-function logBlock(name, kind = 'block', args = {}, enter = true) {
+function logBlock(name, kind = 'block', args = {}, enter = true, level = store.logLevels.awkward) {
   let argString = '', first = true;
   for (arg in args) {
     argString += `${(first ? '' : ', ')}${arg}: ${args[arg]}`;
@@ -9,22 +9,24 @@ function logBlock(name, kind = 'block', args = {}, enter = true) {
   }
 
   let msg = `${kind} (${enter ? 'in ' : 'out'}): ${name}${(argString ? '(' + argString + ')' : '')}`;
-  logAwkward(msg);
+  if (store.logAt >= level) {
+    logMessage(msg, level);
+  }
 }
 
-function logBlockIn(name, kind = 'function', args = {}) {
-  logBlock(name, kind, args);
+function logBlockIn(name, kind = 'function', args = {}, level = store.logLevels.awkward) {
+  logBlock(name, kind, args, true, level);
   nested();
 }
 
-function logBlockOut(name, kind = 'function') {
+function logBlockOut(name, kind = 'function', level = store.logLevels.awkward) {
   unnested();
-  logBlock(name, kind, {}, false);
+  logBlock(name, kind, {}, false, level);
 }
 
-function logBlockInOut(name, kind = 'function', args = {}) {
-  logBlockIn(name, kind, args);
-  logBlockOut(name, kind);
+function logBlockInOut(name, kind = 'function', args = {}, level = store.logLevels.awkward) {
+  logBlockIn(name, kind, args, true, level);
+  logBlockOut(name, kind, {}, false, level);
 }
 
 function logVar(name, value) {

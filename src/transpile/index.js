@@ -1,37 +1,38 @@
 const fs = require('fs');
-const { logBlockIn, logBlockOut } = require('../bootstrap/logger');
+const { logBlockIn, logBlockOut, logStack, logTables } = require('../bootstrap/logger');
+const { peekToken, seekToken } = require('./tokens');
+const { packageBody, procedure } = require('./parse');
 const store = require('../store');
-const { nextToken, peekToken, seekToken } = require('./tokens');
 
-function transpile(input, opts) {
-  logBlockIn('transpile', 'function', { input: input, opts: opts });
+function transpile() {
+  logBlockIn('transpile', 'function', undefined, store.logLevels.chatty);
   
-  const inputFile = fs.openSync(input, 'r');
+  const inputFile = fs.openSync(store.args[0], 'r');
   store.inputFile = inputFile;
 
   while (1) {
     if (peekToken() == 'create') {
-      // getPackageBody();
+      packageBody();
     }
 
     let token;
-    while (token = seekToken([ 'function', 'procedure' ]) !== false) {
+    while ((token = seekToken([ 'function', 'procedure' ])) !== false) {
       if (token == 'function') {
         // getFunction();
       } else if (token == 'procedure') {
-        // getProcedure();
+        procedure();
       }
     }
   }
 
   // generateScript(); // finalize();
 
-  if (opts.dump) {
-    // logStack();
-    // logTables();
+  if (store.opts.dump) {
+    logStack();
+    logTables();
   }
 
-  logBlockOut('transpile');
+  logBlockOut('transpile', 'function', store.logLevels.chatty);
 }
 
 module.exports = transpile;

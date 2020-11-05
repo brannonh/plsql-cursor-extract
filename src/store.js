@@ -1,4 +1,6 @@
 module.exports = {
+  opts: {},
+  args: [],
   inputFile: null,
   bytesRead: 0,
   bytesAt: 0,
@@ -13,4 +15,8 @@ module.exports = {
   logToFile: false,
   logFile: null,
   logFileName: null,
+  stack: [],
+  parameters: {},
+  locals: {},
+  cursors: {},
 }
