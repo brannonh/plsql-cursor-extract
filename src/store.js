@@ -19,4 +19,11 @@ module.exports = {
   parameters: {},
   locals: {},
   cursors: {},
+
+
+
+
+  tokens: [],
+  current: 0,
+  ast: {},
 }
