@@ -121,6 +121,6 @@ try {
   tokenizer(script);
   parser();
 } finally {
-  fs.writeFileSync(paths.tokens, JSON.stringify(store.tokens));
-  fs.writeFileSync(paths.ast, JSON.stringify(store.ast));
+  fs.writeFileSync(paths.tokens, JSON.stringify(store.tokens, null, 2));
+  fs.writeFileSync(paths.ast, JSON.stringify(store.ast, null, 2));
 }

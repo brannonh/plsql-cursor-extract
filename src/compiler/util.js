@@ -6,6 +6,20 @@ function expect(actual, expected) {
   }
 }
 
+function expectNext(options = {}) {
+  let token = getNext();
+
+  if (options.value) {
+    expect(token.value, options.value);
+  }
+
+  if (options.type) {
+    expect(token.type, options.type);
+  }
+
+  return token;
+}
+
 function get(i = store.current) {
   if (store.tokens[i]) {
     return store.tokens[i];
@@ -20,6 +34,7 @@ function getNext() {
 
 module.exports = {
   expect,
+  expectNext,
   get,
   getNext,
 };

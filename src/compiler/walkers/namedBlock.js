@@ -1,4 +1,5 @@
 const { expect, get, getNext } = require('../util');
+const param = require('./param');
 
 function namedBlock() {
   // We got here, because "function" or "procedure" was encountered.
@@ -16,7 +17,7 @@ function namedBlock() {
 
   token = getNext();
   while (token.type !== 'symbol' || (token.type === 'symbol' && token.value !== ')')) {
-    // node.params.push(param());
+    node.params.push(param());
     token = getNext();
   }
   expect(token.value, ')');
