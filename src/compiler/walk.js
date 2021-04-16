@@ -1,29 +1,9 @@
-const { get } = require("./util");
+const { getNext } = require("./util");
 const store = require('../store');
 const walkers = require('./walkers');
 
 function walk() {
-  let token = get();
-
-  // Handle NumberLiteral.
-  if (token.type === 'number') {
-    store.current++;
-
-    return {
-      type: 'NumberLiteral',
-      value: token.value,
-    };
-  }
-
-  // Handle StringLiteral.
-  if (token.type === 'string') {
-    store.current++;
-
-    return {
-      type: 'StringLiteral',
-      value: token.value,
-    };
-  }
+  let token = getNext();
 
   // Handle Symbol.
   if (token.type === 'symbol') {
@@ -35,9 +15,9 @@ function walk() {
     };
   }
 
-  // Handle NamedBlock.
+  // Handle Subprogram.
   if (token.type === 'word' && ['function', 'procedure'].includes(token.value)) {
-    return walkers.namedBlock();
+    return walkers.subprogram();
   }
 
   throw new TypeError(`${token.type} (${token.value})`);

@@ -2,15 +2,15 @@ const { walk } = require('./walk');
 const store = require('../store');
 
 function parser() {
-  store.current = 0;
+  store.current = -1;
 
   store.ast = {
-    type: 'Program',
-    body: [],
+    type: 'Script',
+    content: [],
   };
 
   while (store.current < store.tokens.length) {
-    store.ast.body.push(walk());
+    store.ast.content.push(walk());
   }
 }
 

@@ -1,5 +1,5 @@
-const namedBlock = require('./namedBlock');
+const subprogram = require('./subprogram');
 
 module.exports = {
-  namedBlock,
+  subprogram,
 }

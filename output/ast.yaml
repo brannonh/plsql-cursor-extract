@@ -1,0 +1,37 @@
+type: Script
+content:
+  - type: SubprogramProcedure
+    name: pick_a_plate
+    params:
+      - type: ParamDefinition
+        name: in_taskid
+        in: true
+      - type: ParamDefinition
+        name: out_error
+        out: true
+    declare:
+      type: DeclarationBlock
+      variables:
+        - type: VariableDeclaration
+          name: errmsg
+        - type: VariableDeclaration
+          name: ORL
+      cursors:
+        - type: CursorDeclaration
+          params:
+            - type: ParamDefinition
+              name: in_orderid
+            - type: ParamDefinition
+              name: in_shipid
+            - type: ParamDefinition
+              name: in_orderitem
+            - type: ParamDefinition
+              name: in_orderlot
+          name: curOrderDtl
+          select: ' select* from orderdtl where orderid= in_orderid and shipid= in_shipid and item= in_orderitem and nvl( lotnumber,(none))= nvl( in_orderlot,(none))'
+        - type: CursorDeclaration
+          params: []
+          name: curanyshippingplate
+          select: ' select lpid from shippingplate where fromlpid in( select lpid from plate start with lpid= in_carton connect by prior lpid= parentlpid)'
+  - type: Symbol
+    value: /

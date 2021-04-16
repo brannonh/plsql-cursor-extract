@@ -2,14 +2,11 @@ const { expect, get, getNext, expectNext } = require('../util');
 const declare = require('./declare');
 const param = require('./param');
 
-function namedBlock() {
-  // We got here, because "function" or "procedure" was encountered.
-  // We don't care about the actual words "function" and "procedure".
-  token = getNext();
-
+function subprogram() {
+  token = get();
   let node = {
-    type: 'NamedBlock',
-    name: token.value,
+    type: `Subprogram${token.value[0].toUpperCase()}${token.value.slice(1)}`,
+    name: getNext().value,
     params: [],
   }
 
@@ -30,12 +27,13 @@ function namedBlock() {
   // Get body.
   token = get();
   expect(token.value, 'begin');
-  // TODO : Finish this.
-  expectNext({ value: 'end' });
+  token = getNext();
+  while (token.value !== 'end') {
+    token = getNext();
+  }
   expectNext({ value: ';' });
-  expectNext({ value: '/' });
 
   return node;
 }
 
-module.exports = namedBlock;
+module.exports = subprogram;
