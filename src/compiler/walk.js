@@ -25,12 +25,22 @@ function walk() {
     };
   }
 
+  // Handle Symbol.
+  if (token.type === 'symbol') {
+    store.current++;
+
+    return {
+      type: 'Symbol',
+      value: token.value,
+    };
+  }
+
   // Handle NamedBlock.
   if (token.type === 'word' && ['function', 'procedure'].includes(token.value)) {
     return walkers.namedBlock();
   }
 
-  throw new TypeError(token.type);
+  throw new TypeError(`${token.type} (${token.value})`);
 }
 
 module.exports = {

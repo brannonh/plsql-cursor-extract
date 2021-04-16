@@ -1,8 +1,8 @@
 const store = require('../store');
 
-function expect(actual, expected) {
+function expect(actual, expected, desc = 'token') {
   if (actual !== expected) {
-    throw new TypeError(`Invalid token '${actual}', expected '${expected}'`);
+    throw new TypeError(`Invalid ${desc} '${actual}', expected '${expected}'`);
   }
 }
 
@@ -14,7 +14,7 @@ function expectNext(options = {}) {
   }
 
   if (options.type) {
-    expect(token.type, options.type);
+    expect(token.type, options.type, 'token type');
   }
 
   return token;
@@ -32,9 +32,14 @@ function getNext() {
   return get(++store.current);
 }
 
+function getPrevious() {
+  return get(--store.current);
+}
+
 module.exports = {
   expect,
   expectNext,
   get,
   getNext,
+  getPrevious,
 };

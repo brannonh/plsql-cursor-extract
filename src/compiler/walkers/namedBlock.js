@@ -1,4 +1,5 @@
-const { expect, get, getNext } = require('../util');
+const { expect, get, getNext, expectNext } = require('../util');
+const declare = require('./declare');
 const param = require('./param');
 
 function namedBlock() {
@@ -12,17 +13,28 @@ function namedBlock() {
     params: [],
   }
 
+  // Get parameters.
   token = getNext();
   expect(token.value, '(');
 
   token = getNext();
-  while (token.type !== 'symbol' || (token.type === 'symbol' && token.value !== ')')) {
+  while (token.value !== ')') {
     node.params.push(param());
     token = getNext();
   }
-  expect(token.value, ')');
 
-  // token = getNext();
+  // Get declaration.
+  token = expectNext({ value: 'is' });
+  node.declare = declare();
+
+  // Get body.
+  token = get();
+  expect(token.value, 'begin');
+  // TODO : Finish this.
+  expectNext({ value: 'end' });
+  expectNext({ value: ';' });
+  expectNext({ value: '/' });
+
   return node;
 }
 
